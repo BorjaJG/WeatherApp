@@ -66,10 +66,5 @@ Las clases `ApplicationContext` y `WeatherRepository` contienen pequeñas modifi
 | **2. Definición de `WeatherEntity`** | Define correctamente campos y anotaciones de Room. Estructura coincide con la BD. | Entidad funcional pero con algún error menor. | Entidad incompleta o con anotaciones incorrectas. | Guarda datos parcialmente o con errores. | Entidad ausente o clase no compila. |
 | **3. Implementación de `WeatherDao`** | Incluye correctamente métodos para insertar, eliminar y obtener temperaturas con anotaciones adecuadas. | Métodos principales con pequeños fallos (por ejemplo, sin ordenar). | Métodos incompletos o con anotaciones incorrectas. | Métodos ausentes o errores que impiden la compilación. | - |
 | **4. Configuración de `WeatherDatabase`** | Configura correctamente Room y devuelve una instancia única (singleton). | Funcional pero sin patrón singleton o con parámetros erróneos. | Funcional pero con errores puntuales. | No implementa correctamente Room o no compila. | - |
-"""
 
-# Crear el archivo .md
-output_path = Path("/mnt/data/Enunciado_practica_1.md")
-output_path.write_text(markdown_content, encoding="utf-8")
 
-output_path
