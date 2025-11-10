@@ -1,62 +1,77 @@
 package com.weatherApp.data.repository
 
+import android.util.Log
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.weatherApp.data.api.WeatherApiService
 import com.weatherApp.data.db.WeatherDao
 import com.weatherApp.data.db.WeatherEntity
 import com.weatherApp.utils.PreferencesManager
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
+/**
+ * 🌍 Repositorio principal que gestiona el acceso a los datos meteorológicos.
+ *
+ * 📡 Se comunica con:
+ *  - El servicio remoto [WeatherApiService] para obtener datos desde la API.
+ *  - El almacenamiento local (Room) mediante [WeatherDao].
+ *  - Las preferencias de usuario mediante [PreferencesManager].
+ */
 class WeatherRepository(
-    //private val dao: WeatherDao,
-    private val api: WeatherApiService,
-    private val prefs: PreferencesManager
+    private val dao: WeatherDao,                // 💾 Acceso a la base de datos local
+    private val api: WeatherApiService,         // 🌐 Servicio para obtener datos del API
+    private val prefs: PreferencesManager       // ⚙️ Gestor de preferencias (ciudad y coordenadas)
 ) {
 
+    /**
+     * 📍 Devuelve la ubicación guardada en preferencias.
+     *
+     * @return Triple con el nombre de la ciudad, latitud y longitud.
+     */
     fun getSavedLocation(): Triple<String?, Float?, Float?> {
         val name = prefs.getCityName()
         val latitude = prefs.getLatitude()
         val longitude = prefs.getLongitude()
-        return Triple(name,latitude,longitude)
+        Log.d("PreferencesManager", "Ubicación guardada: city=$name, lat=$latitude, lon=$longitude")
+        return Triple(name, latitude, longitude)
+
     }
 
-    fun saveLocation(name: String,latitude: Double,longitude: Double, ) {
-        prefs.saveLocation(name,latitude,longitude)
+    /**
+     * 💾 Guarda una nueva ubicación (nombre, latitud, longitud) en SharedPreferences.
+     */
+    fun saveLocation(name: String, latitude: Double, longitude: Double) {
+        prefs.saveLocation(name, latitude, longitude)
     }
 
+    /**
+     * ☁️ Obtiene los datos meteorológicos desde el API y los guarda en la base de datos local.
+     *
+     * 🔁 Este método elimina los datos antiguos antes de insertar los nuevos.
+     */
     suspend fun fetchWeather(latitude: Float?, longitude: Float?) {
+        Log.d("WeatherRepository", "Llamando API con: lat=$latitude, lon=$longitude")
+        // Llamada al API
         val response = api.getWeather(latitude, longitude)
+
+        // 🔄 Mapeo de la respuesta del API a entidades de base de datos
         val temperatures = response.hourly.temperature_2m.mapIndexed { index, temp ->
             WeatherEntity(
-                id = 0,
+                id = 0, // Room autogenera el ID
                 temperature = temp,
                 time = response.hourly.time[index]
             )
         }
-        //dao.clearDatabase()
-        //dao.insertWeatherData(temperatures)
+
+        // 🧹 Limpiar datos antiguos y guardar los nuevos en la BD
+        dao.clearDatabase()
+        dao.insertWeatherData(temperatures)
     }
 
+    /**
+     * 📊 Devuelve la lista de temperaturas almacenadas en la base de datos local.
+     *
+     * @return LiveData que contiene la lista de [WeatherEntity].
+     */
     fun getWeather(): LiveData<List<WeatherEntity>> {
-        // TODO uncomment when DAO is defined and delete all the other lines on this function
-        //  return dao.retrieveWeatherData()
-        val mockData = MutableLiveData<List<WeatherEntity>>()
-
-        val now = LocalDateTime.now()
-        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm")
-
-        val list = List(12) { i ->
-            WeatherEntity(
-                id = i,
-                temperature = (10..25).random().toDouble(),
-                time = now.plusHours(i.toLong()).format(formatter)
-            )
-        }
-
-        mockData.value = list
-        return mockData
+        return dao.retrieveWeatherData()
     }
 }
-
