@@ -1,5 +1,6 @@
 package com.weatherApp.ui
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import com.weatherApp.R
 import android.view.View
@@ -12,6 +13,7 @@ import com.weatherApp.ApplicationContext
 
 class LocationFragment : Fragment(R.layout.fragment_location){
 
+    @SuppressLint("DefaultLocale")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val repository = ApplicationContext.repository
         val cityEdit = view.findViewById<EditText>(R.id.editCity)

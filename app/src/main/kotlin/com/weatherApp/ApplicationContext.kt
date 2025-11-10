@@ -26,7 +26,7 @@ class ApplicationContext : Application() {
     override fun onCreate() {
         super.onCreate()
         instance = this
-        database = WeatherDatabase.getInstance(instance)
+        database = WeatherDatabase.getDatabase(instance)
         apiService = Retrofit.Builder()
                 .baseUrl("https://api.open-meteo.com/")
                 .addConverterFactory(GsonConverterFactory.create())

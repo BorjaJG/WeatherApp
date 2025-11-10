@@ -11,7 +11,7 @@ import androidx.room.RoomDatabase
  * 📦 Usa la librería Room para manejar el acceso a datos de forma segura y eficiente.
  * Contiene una única tabla llamada `weather_data`, representada por la entidad [WeatherEntity].
  */
-@Database(entities = [WeatherEntity::class], version = 1, exportSchema = false)
+@Database(entities = [WeatherEntity::class], version = 2, exportSchema = false)
 abstract class WeatherDatabase : RoomDatabase() {
 
     /**

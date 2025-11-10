@@ -27,7 +27,7 @@ interface WeatherDao {
      * ordenados por hora ascendente (de la mañana a la noche 🌅🌇).
      *
      */
-    @Query("SELECT * FROM weather_data ORDER BY hour ASC")
+    @Query("SELECT * FROM weather_data ORDER BY time ASC")
     fun retrieveWeatherData(): LiveData<List<WeatherEntity>>
 
     /**
