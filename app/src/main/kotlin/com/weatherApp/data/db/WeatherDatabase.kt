@@ -8,20 +8,16 @@ import androidx.room.RoomDatabase
 /**
  * 🏗️ Clase principal que representa la base de datos local de la aplicación.
  *
- * 📦 Usa la librería Room para manejar el acceso a datos de forma segura y eficiente.
- * Contiene una única tabla llamada `weather_data`, representada por la entidad [WeatherEntity].
  */
 @Database(entities = [WeatherEntity::class], version = 2, exportSchema = false)
 abstract class WeatherDatabase : RoomDatabase() {
 
     /**
-     * 🔗 Proporciona acceso al DAO (Data Access Object) para realizar operaciones
-     * sobre la base de datos.
+     * 🔗 Proporciona acceso al DAO (Data Access Object) para realizar operaciones sobre la base de datos.
      */
     abstract fun weatherDao(): WeatherDao
 
     companion object {
-        // ⚡ Instancia única (Singleton) de la base de datos.
         @Volatile
         private var INSTANCE: WeatherDatabase? = null
 

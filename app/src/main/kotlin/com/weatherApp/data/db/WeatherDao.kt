@@ -24,7 +24,7 @@ interface WeatherDao {
 
     /**
      * 📊 Recupera todos los registros almacenados en la tabla `weather_data`,
-     * ordenados por hora ascendente (de la mañana a la noche 🌅🌇).
+     * ordenados por hora ascendente.
      *
      */
     @Query("SELECT * FROM weather_data ORDER BY time ASC")

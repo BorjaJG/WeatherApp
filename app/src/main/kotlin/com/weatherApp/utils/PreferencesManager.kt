@@ -2,6 +2,7 @@ package com.weatherApp.utils
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.util.Log
 
 /**
  * 💾 Clase que gestiona el almacenamiento y recuperación de datos de configuración del usuario
@@ -45,8 +46,10 @@ class PreferencesManager(context: Context) {
             putString(KEY_CITY_NAME, city)             // 🏙️ Guarda el nombre de la ciudad
             putFloat(KEY_LATITUDE, latitude.toFloat()) // 🌡️ Guarda la latitud como Float
             putFloat(KEY_LONGITUDE, longitude.toFloat()) // 🌡️ Guarda la longitud como Float
+
             apply() // ✅ Aplica los cambios de forma asíncrona
         }
+        Log.d("PreferencesManager2", "Ubicación guardada: city=$city, lat=$latitude, lon=$longitude")
     }
 
     /**

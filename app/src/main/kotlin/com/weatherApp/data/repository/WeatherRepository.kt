@@ -1,5 +1,6 @@
 package com.weatherApp.data.repository
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import com.weatherApp.data.api.WeatherApiService
 import com.weatherApp.data.db.WeatherDao
@@ -29,7 +30,9 @@ class WeatherRepository(
         val name = prefs.getCityName()
         val latitude = prefs.getLatitude()
         val longitude = prefs.getLongitude()
+        Log.d("PreferencesManager", "Ubicación guardada: city=$name, lat=$latitude, lon=$longitude")
         return Triple(name, latitude, longitude)
+
     }
 
     /**
@@ -45,6 +48,7 @@ class WeatherRepository(
      * 🔁 Este método elimina los datos antiguos antes de insertar los nuevos.
      */
     suspend fun fetchWeather(latitude: Float?, longitude: Float?) {
+        Log.d("WeatherRepository", "Llamando API con: lat=$latitude, lon=$longitude")
         // Llamada al API
         val response = api.getWeather(latitude, longitude)
 

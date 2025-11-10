@@ -12,13 +12,12 @@ data class WeatherEntity(
 
     /**
      * 🔑 Identificador único de cada registro.
-     * Se genera automáticamente al insertar un nuevo dato.
      */
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
 
     /**
-     * ⏰ Hora del registro en formato texto (por ejemplo, "12:00" o "2025-11-09T15:00").
+     * ⏰ Hora del registro en formato texto
      */
     val time: String,
 
